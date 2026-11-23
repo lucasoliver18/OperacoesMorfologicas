@@ -31,6 +31,20 @@ python demo_morfologia.py          # gera as figuras em resultados/
 # ou abra demo_morfologia.ipynb no Jupyter
 ```
 
+## Como testar
+
+```bash
+pip install -r requirements.txt pytest
+python -m pytest -v
+```
+
+Os testes ficam em `tests/test_morfologia.py`. Eles executam o script inteiro numa pasta temporária, sem sobrescrever `resultados/`, e conferem:
+- se as 10 figuras são geradas e as imagens reais carregam;
+- se a erosão e a dilatação manuais são idênticas a `cv2.erode`/`cv2.dilate` (3 formatos, vários tamanhos, imagens binárias e em cinza);
+- as definições de abertura, fechamento e gradiente;
+- as propriedades matemáticas: abertura ≤ A ≤ fechamento, idempotência e dualidade;
+- os resultados citados no relatório (redução de erro, ordem das operações, efeito do tamanho do kernel e das iterações).
+
 ## Estrutura
 
 ```
@@ -38,6 +52,7 @@ demo_morfologia.py      # script principal (células # %% – roda direto ou vir
 demo_morfologia.ipynb   # mesmo código, já executado
 imagens/                # imagens de entrada (cameraman.png, texto.png)
 resultados/             # figuras geradas pelo código
+tests/                  # testes automatizados (pytest)
 requirements.txt
 ```
 
