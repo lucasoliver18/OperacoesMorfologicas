@@ -14,6 +14,22 @@
 # 5. Análise de parâmetros: tamanho, formato e iterações do kernel
 # 6. Imagem real em tons de cinza
 
+# %% [markdown]
+# ### Configuração (só no Google Colab)
+# No Colab, a célula abaixo baixa o repositório (com a pasta `imagens/`) e entra nele.
+# Rodando local (Jupyter / VS Code), ela não faz nada.
+
+# %%
+import os
+import subprocess
+import sys
+
+if "google.colab" in sys.modules and not os.path.isdir("imagens"):
+    if not os.path.isdir("OperacoesMorfologicas"):
+        subprocess.run(["git", "clone", "-q", "https://github.com/lucasoliver18/OperacoesMorfologicas.git"], check=True)
+    os.chdir("OperacoesMorfologicas")
+print("Pasta imagens/ encontrada?", os.path.isdir("imagens"))
+
 # %%
 import cv2
 import numpy as np
@@ -194,7 +210,10 @@ mostrar([ruidosa, limpeza, limpa], ["Ruidosa", "Fechamento → Abertura (3x3)", 
 #
 # ### 6.1 Tamanho do kernel
 # Medimos quantos pixels diferem do gabarito para cada tamanho.
-# Kernel **pequeno** → sobra ruído. Kernel **grande** → apaga também o disco pequeno e a linha fina.
+# - Kernel **pequeno** (3x3) → remove o ruído e preserva os detalhes: menor erro.
+# - Kernel **grande** → apaga detalhes reais: a partir do 9x9 a linha fina (3 px) se quebra e as letras ficam ilegíveis.
+# - No 15x15 o fechamento (que vem primeiro) junta pontos de ruído vizinhos em manchas maiores que o kernel, e a abertura não consegue mais removê-las.
+# - O disco pequeno (raio 12, ~25 px de diâmetro) resiste até o 15x15: só sumiria com um kernel maior que ele.
 
 # %%
 tamanhos = [3, 5, 9, 15]
@@ -215,7 +234,8 @@ mostrar(pilha, titulos, "05_tamanho_kernel.png", colunas=2, tam=3.6)
 
 # %% [markdown]
 # ### 6.2 Tamanho do kernel no **gradiente** (espessura da borda)
-# O gradiente tem espessura ≈ tamanho do kernel: kernel maior → contorno mais grosso.
+# O contorno tem espessura = tamanho do kernel − 1 (3x3 → 2 px, 7x7 → 6 px, 15x15 → 14 px):
+# metade fica para fora (dilatação) e metade para dentro (erosão).
 
 # %%
 limpa_grad, titulos_g = [], []

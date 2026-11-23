@@ -18,14 +18,13 @@ Abertura, Fechamento e Gradiente Morfológico (Python + OpenCV + NumPy)
 ## Como executar
 
 ### Opção 1 – Google Colab
-1. Abra o Colab e rode numa célula: `!git clone https://github.com/SEU_USUARIO/morfologia-opencv.git`
-2. Depois: `%cd morfologia-opencv`
-3. Abra `demo_morfologia.ipynb` e execute todas as células.
+1. Abra o notebook direto do GitHub: https://colab.research.google.com/github/lucasoliver18/OperacoesMorfologicas/blob/main/demo_morfologia.ipynb
+2. Menu **Ambiente de execução → Executar tudo** (Ctrl+F9). A primeira célula de código baixa o repositório (pasta `imagens/`) automaticamente.
 
 ### Opção 2 – Local
 ```bash
-git clone https://github.com/SEU_USUARIO/morfologia-opencv.git
-cd morfologia-opencv
+git clone https://github.com/lucasoliver18/OperacoesMorfologicas.git
+cd OperacoesMorfologicas
 pip install -r requirements.txt
 python demo_morfologia.py          # gera as figuras em resultados/
 # ou abra demo_morfologia.ipynb no Jupyter
